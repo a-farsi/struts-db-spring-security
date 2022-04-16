@@ -7,29 +7,19 @@ import java.sql.Statement;
 
 public class UserDao {
 
-	public void insertData(String firstName, String lastName, String userName,
-			String password, String email, String phone) throws Exception {
+	public void insertData(String username, String password) throws Exception {
 		System.out.println("jdbc connection");
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection(
-				"jdbc:mysql://localhost/strutsdb", "root", "root");
+		//Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/strutsdb", "root", "root");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/strutsdb?"+"user=root&password=root");
 
 		try {
 
 			try {
 				Statement st = con.createStatement();
 				int value = st
-						.executeUpdate("INSERT INTO USER_DETAILS(FIRST_NAME,LAST_NAME,USER_NAME,PASSWORD,EMAIL,PHONE) "
-								+ "VALUES('"
-								+ firstName
-								+ "','"
-								+ lastName
-								+ "','"
-								+ userName
-								+ "','"
-								+ password
-								+ "','"
-								+ email + "','" + phone + "')");
+						.executeUpdate("INSERT INTO USER_DETAILS(USERNAME,PASSWORD) "
+								+ "VALUES('"+ username+ "','"+ password+ "')");
 				System.out.println("1 row affected" + value);
 			} catch (SQLException ex) {
 				System.out.println("SQL statement is not executed!" + ex);
