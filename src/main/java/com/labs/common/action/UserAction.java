@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.labs.common.dao.UserDao;
 import com.labs.common.form.UserForm;
+import com.labs.common.model.User;
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -18,12 +19,13 @@ public class UserAction extends Action{
 		HttpSession session = request.getSession(true);
 		UserForm user = (UserForm) form;
 		String username = user.getUsername();
-		System.out.println("username "+ username);
 		String password = user.getPassword();
-		System.out.println("password "+ password);
-
 		UserDao dao = new UserDao();
-		dao.insertData(username, password);
+
+		User userDto = new User();
+		userDto.setUsername(username);
+		userDto.setPassword(password);
+		dao.save(userDto);
 
 		return mapping.findForward("success");
 	}

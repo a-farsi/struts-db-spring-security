@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+         xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+         http://www.springframework.org/schema/security
+         http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+    <http realm="Project Realm" auto-config="true">
+        <intercept-url pattern="/auth/**" access="fullyAuthenticated"/>
+        <intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
+        <form-login
+                login-page="/auth/login.jsp"
+                authentication-failure-url="/auth/login.jsp?login_error=1"/>
+        <logout logout-success-url="/auth/login.jsp"/>
+        <remember-me/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <!--<password-encoder hash="md5"/>-->
+            <user-service>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</b:beans>
